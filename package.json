@@ -32,6 +32,7 @@
     "electron": "^39.2.7",
     "electron-builder": "^24.13.3",
     "nodemon": "^3.1.11",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite": "^5.4.21",
     "wait-on": "^7.2.0"
