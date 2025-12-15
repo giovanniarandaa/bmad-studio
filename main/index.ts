@@ -10,7 +10,7 @@
  * - Preload script for safe IPC bridge
  */
 
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
 import * as path from 'path';
 import {
   APP_NAME,
@@ -20,6 +20,7 @@ import {
   DEFAULT_WINDOW_HEIGHT,
   VITE_DEV_SERVER_URL,
 } from '../shared/constants/app';
+import { initializeDatabase, closeDatabase } from './database';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -60,17 +61,37 @@ function createWindow(): void {
 }
 
 /**
- * App ready - create window
+ * App ready - initialize database and create window
  */
-app.whenReady().then(() => {
-  createWindow();
+app.whenReady().then(async () => {
+  try {
+    // Initialize database BEFORE creating window
+    await initializeDatabase();
+    console.log('✅ Database initialized successfully');
 
-  // macOS: Re-create window when dock icon clicked and no windows open
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
+    // Now create the window
+    createWindow();
+
+    // macOS: Re-create window when dock icon clicked and no windows open
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  } catch (error) {
+    console.error('❌ Failed to initialize database:', error);
+
+    // Show error dialog to user
+    dialog.showErrorBox(
+      'Database Initialization Failed',
+      `BMAD Studio failed to initialize the database.\n\n` +
+        `Error: ${error instanceof Error ? error.message : String(error)}\n\n` +
+        `The application will now quit.`
+    );
+
+    // Quit app - cannot run without database
+    app.quit();
+  }
 });
 
 /**
@@ -83,8 +104,16 @@ app.on('window-all-closed', () => {
 });
 
 /**
+ * App will quit - cleanup
+ */
+app.on('will-quit', () => {
+  console.log('🔒 Closing database connection...');
+  closeDatabase();
+});
+
+/**
  * Placeholder for future IPC handlers
- * Will be implemented in Phase 1 Module 1.2 (SQLite) and beyond
+ * Will be implemented in Phase 2+ modules
  *
  * Example:
  * ipcMain.handle('project:add', async (_event, projectPath: string) => {
