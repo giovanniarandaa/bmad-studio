@@ -17,8 +17,8 @@ describe('ProjectRepository', () => {
   let tempDbPath: string;
 
   beforeEach(() => {
-    // Create temporary database for testing
-    tempDbPath = path.join(os.tmpdir(), `test-${Date.now()}.db`);
+    // Create temporary database for testing with unique name
+    tempDbPath = path.join(os.tmpdir(), `test-project-${Date.now()}-${Math.random()}.db`);
     db = new Database(tempDbPath);
 
     // Create projects table
@@ -37,9 +37,28 @@ describe('ProjectRepository', () => {
   });
 
   afterEach(() => {
-    db.close();
-    if (fs.existsSync(tempDbPath)) {
-      fs.unlinkSync(tempDbPath);
+    if (db) {
+      try {
+        db.close();
+      } catch (e) {
+        // Ignore close errors
+      }
+    }
+
+    // Clean up temp files
+    try {
+      if (fs.existsSync(tempDbPath)) {
+        fs.unlinkSync(tempDbPath);
+      }
+      // Clean up WAL and SHM files if they exist
+      if (fs.existsSync(tempDbPath + '-wal')) {
+        fs.unlinkSync(tempDbPath + '-wal');
+      }
+      if (fs.existsSync(tempDbPath + '-shm')) {
+        fs.unlinkSync(tempDbPath + '-shm');
+      }
+    } catch (e) {
+      // Ignore cleanup errors
     }
   });
 

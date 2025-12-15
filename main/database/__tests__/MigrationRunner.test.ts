@@ -17,17 +17,36 @@ describe('MigrationRunner', () => {
   let tempDbPath: string;
 
   beforeEach(() => {
-    // Create temporary database for testing
-    tempDbPath = path.join(os.tmpdir(), `test-${Date.now()}.db`);
+    // Create temporary database for testing with unique name
+    tempDbPath = path.join(os.tmpdir(), `test-migration-${Date.now()}-${Math.random()}.db`);
     db = new Database(tempDbPath);
     runner = new MigrationRunner(db);
   });
 
   afterEach(() => {
     // Clean up
-    db.close();
-    if (fs.existsSync(tempDbPath)) {
-      fs.unlinkSync(tempDbPath);
+    if (db) {
+      try {
+        db.close();
+      } catch (e) {
+        // Ignore close errors
+      }
+    }
+
+    // Clean up temp files
+    try {
+      if (fs.existsSync(tempDbPath)) {
+        fs.unlinkSync(tempDbPath);
+      }
+      // Clean up WAL and SHM files if they exist
+      if (fs.existsSync(tempDbPath + '-wal')) {
+        fs.unlinkSync(tempDbPath + '-wal');
+      }
+      if (fs.existsSync(tempDbPath + '-shm')) {
+        fs.unlinkSync(tempDbPath + '-shm');
+      }
+    } catch (e) {
+      // Ignore cleanup errors
     }
   });
 
@@ -63,7 +82,7 @@ describe('MigrationRunner', () => {
         'bmad_commands',
         'bmad_skills',
         'prompt_templates',
-        'settings',
+        'app_settings',
         'code_review_sessions',
         'code_review_findings',
         'troubleshooting_sessions',
@@ -72,11 +91,24 @@ describe('MigrationRunner', () => {
         'improvement_suggestions',
       ];
 
+      // Get all created tables
+      const allTables = db.prepare(`
+        SELECT name FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      `).all() as { name: string }[];
+
+      const createdTableNames = allTables.map(t => t.name);
+
       for (const tableName of expectedTables) {
         const table = db.prepare(`
           SELECT name FROM sqlite_master
           WHERE type='table' AND name=?
         `).get(tableName);
+
+        if (!table) {
+          console.log(`Missing table: ${tableName}`);
+          console.log(`Created tables:`, createdTableNames);
+        }
 
         expect(table).toBeDefined();
       }

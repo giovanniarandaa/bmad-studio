@@ -15,11 +15,22 @@ export class ProjectRepository {
   }
 
   /**
+   * Convert SQLite row to Project (converts 0/1 to boolean)
+   */
+  private rowToProject(row: any): Project {
+    return {
+      ...row,
+      has_bmad: Boolean(row.has_bmad),
+    };
+  }
+
+  /**
    * Find all projects
    */
   findAll(): Project[] {
     const stmt = this.db.prepare('SELECT * FROM projects ORDER BY last_opened_at DESC, created_at DESC');
-    return stmt.all() as Project[];
+    const rows = stmt.all() as any[];
+    return rows.map(row => this.rowToProject(row));
   }
 
   /**
@@ -27,7 +38,8 @@ export class ProjectRepository {
    */
   findById(id: number): Project | null {
     const stmt = this.db.prepare('SELECT * FROM projects WHERE id = ?');
-    return (stmt.get(id) as Project) || null;
+    const row = stmt.get(id) as any;
+    return row ? this.rowToProject(row) : null;
   }
 
   /**
@@ -35,7 +47,8 @@ export class ProjectRepository {
    */
   findByPath(path: string): Project | null {
     const stmt = this.db.prepare('SELECT * FROM projects WHERE path = ?');
-    return (stmt.get(path) as Project) || null;
+    const row = stmt.get(path) as any;
+    return row ? this.rowToProject(row) : null;
   }
 
   /**
