@@ -15,12 +15,6 @@ import type { Database } from 'better-sqlite3';
 import type { Migration } from './migrations/Migration';
 import * as path from 'path';
 import * as fs from 'fs';
-import { fileURLToPath } from 'url';
-
-// Get __dirname equivalent in ES modules
-// This will be replaced with proper path resolution when built
-const __filename = fileURLToPath(new URL(import.meta.url));
-const __dirname = path.dirname(__filename);
 
 interface MigrationRecord {
   version: number;

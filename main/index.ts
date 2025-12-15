@@ -20,7 +20,7 @@ import {
   DEFAULT_WINDOW_HEIGHT,
   VITE_DEV_SERVER_URL,
 } from '../shared/constants/app';
-import { initializeDatabase, closeDatabase } from './database';
+import { initializeDatabase, closeDatabase } from './database/index';
 
 let mainWindow: BrowserWindow | null = null;
 
