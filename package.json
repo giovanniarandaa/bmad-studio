@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/main/main/index.js",
   "scripts": {
-    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && nodemon --watch main --exec electron dist/main/main/index.js\"",
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && nodemon --watch main --exec cross-env NODE_ENV=development electron dist/main/main/index.js\"",
     "build": "npm run build:main && npm run build:renderer && electron-builder",
     "build:main": "tsc --project tsconfig.main.json",
     "build:renderer": "vite build",
@@ -36,6 +36,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^4.0.15",
     "concurrently": "^8.2.2",
+    "cross-env": "^10.1.0",
     "electron": "^39.2.7",
     "electron-builder": "^24.13.3",
     "electron-rebuild": "^3.2.9",
@@ -47,10 +48,16 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/better-sqlite3": "^7.6.13",
     "better-sqlite3": "^12.5.0",
     "keytar": "^7.9.0",
+    "lucide-react": "^0.561.0",
+    "postcss": "^8.5.6",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^6.30.2",
+    "tailwindcss": "^4.1.18",
+    "zustand": "^4.5.7"
   }
 }

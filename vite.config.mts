@@ -6,7 +6,11 @@
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   // Root directory for Vite (renderer process)
@@ -22,7 +26,7 @@ export default defineConfig({
     // Optimize for Electron renderer
     target: 'esnext',
     rollupOptions: {
-      input: path.join(__dirname, 'renderer', 'index.html'),
+      input: join(__dirname, 'renderer', 'index.html'),
     },
   },
 
