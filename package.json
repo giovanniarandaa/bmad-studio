@@ -37,6 +37,9 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.5.0",
+    "keytar": "^7.9.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   }
