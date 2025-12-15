@@ -1,0 +1,31 @@
+# Electron Builder Configuration
+# Generates macOS .app and .dmg for distribution
+
+appId: com.bmadstudio.app
+productName: BMAD Studio
+
+directories:
+  output: out
+  buildResources: build
+
+files:
+  - dist/**/*
+  - package.json
+  - node_modules/**/*
+  - "!node_modules/**/*.{md,ts,map}"
+  - "!**/{.DS_Store,Thumbs.db,*.log}"
+
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.developer-tools
+  # Code signing optional for development
+  # identity: null  # Skip code signing for now
+
+dmg:
+  title: "${productName} ${version}"
+  icon: false  # No custom icon for Phase 1
+
+# Compression
+compression: normal

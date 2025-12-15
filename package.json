@@ -2,10 +2,15 @@
   "name": "bmad-studio",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "dist/main/main/index.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "NODE_ENV=development electron ."
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && nodemon --watch main --exec electron dist/main/main/index.js\"",
+    "build": "npm run build:main && npm run build:renderer && electron-builder",
+    "build:main": "tsc --project tsconfig.main.json",
+    "build:renderer": "vite build",
+    "typecheck": "tsc --noEmit --project tsconfig.main.json && tsc --noEmit --project tsconfig.renderer.json",
+    "preview": "vite preview",
+    "start": "electron dist/main/main/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +24,20 @@
   },
   "homepage": "https://github.com/giovanniarandaa/bmad-studio#readme",
   "devDependencies": {
-    "electron": "^39.2.7"
+    "@types/node": "^20.19.27",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^8.2.2",
+    "electron": "^39.2.7",
+    "electron-builder": "^24.13.3",
+    "nodemon": "^3.1.11",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.21",
+    "wait-on": "^7.2.0"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   }
 }
