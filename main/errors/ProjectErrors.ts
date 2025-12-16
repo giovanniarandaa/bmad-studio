@@ -9,7 +9,7 @@ export class ProjectAlreadyExistsError extends Error {
   public readonly code = 'PROJECT_ALREADY_EXISTS';
 
   constructor(public readonly path: string) {
-    super(`Project already exists: ${path}`);
+    super(`El proyecto ya existe: ${path}`);
     this.name = 'ProjectAlreadyExistsError';
     Object.setPrototypeOf(this, ProjectAlreadyExistsError.prototype);
   }
@@ -25,7 +25,7 @@ export class InvalidJSONError extends Error {
     public readonly filePath: string,
     public readonly originalError?: Error
   ) {
-    super(`Invalid JSON in file: ${filePath}`);
+    super(`JSON inválido en archivo: ${filePath}`);
     this.name = 'InvalidJSONError';
     Object.setPrototypeOf(this, InvalidJSONError.prototype);
   }
@@ -38,7 +38,7 @@ export class ProjectNotFoundError extends Error {
   public readonly code = 'PROJECT_NOT_FOUND';
 
   constructor(public readonly projectId: number) {
-    super(`Project not found: ${projectId}`);
+    super(`Proyecto no encontrado: ${projectId}`);
     this.name = 'ProjectNotFoundError';
     Object.setPrototypeOf(this, ProjectNotFoundError.prototype);
   }

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppLayout } from '../components/Layout/AppLayout';
-import { ProjectsView } from '../components/Placeholders/ProjectsView';
+import { ProjectsView } from '../components/Projects/ProjectsView';
 import { FeaturesView } from '../components/Placeholders/FeaturesView';
 import { BMADView } from '../components/Placeholders/BMADView';
 import { ReviewsView } from '../components/Placeholders/ReviewsView';

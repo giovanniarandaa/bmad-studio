@@ -6,12 +6,13 @@
  */
 
 import * as path from 'path';
+import * as fs from 'fs/promises';
 import type { Database } from 'better-sqlite3';
 import type { Project } from '../../shared/types/database';
 import { ProjectRepository } from '../repositories/ProjectRepository';
 import { FileSystemService } from './FileSystemService';
 import { FileNotFoundError, PermissionDeniedError } from '../errors/FileSystemErrors';
-import { ProjectAlreadyExistsError, InvalidJSONError } from '../errors/ProjectErrors';
+import { ProjectAlreadyExistsError } from '../errors/ProjectErrors';
 
 export type ProjectType = 'node' | 'php' | 'fullstack' | 'generic';
 
@@ -82,32 +83,34 @@ export class ProjectService {
    * @returns Detected project name
    */
   async detectProjectName(projectPath: string): Promise<string> {
-    // Try package.json
-    try {
-      const packageJsonPath = path.join(projectPath, 'package.json');
-      const packageJsonContent = await this.fileSystemService.readFile(packageJsonPath);
-      const packageJson = JSON.parse(packageJsonContent);
-      if (packageJson.name && typeof packageJson.name === 'string') {
-        return packageJson.name;
-      }
-    } catch (error) {
-      // Ignore - file might not exist or JSON might be invalid
+    const packageName = await this.readManifestName(projectPath, 'package.json');
+    if (packageName) {
+      return packageName;
     }
 
-    // Try composer.json
-    try {
-      const composerJsonPath = path.join(projectPath, 'composer.json');
-      const composerJsonContent = await this.fileSystemService.readFile(composerJsonPath);
-      const composerJson = JSON.parse(composerJsonContent);
-      if (composerJson.name && typeof composerJson.name === 'string') {
-        return composerJson.name;
-      }
-    } catch (error) {
-      // Ignore - file might not exist or JSON might be invalid
+    const composerName = await this.readManifestName(projectPath, 'composer.json');
+    if (composerName) {
+      return composerName;
     }
 
     // Fallback: folder name
     return path.basename(projectPath);
+  }
+
+  private async readManifestName(projectPath: string, manifestFile: string): Promise<string | null> {
+    const manifestPath = path.join(projectPath, manifestFile);
+
+    try {
+      const content = await fs.readFile(manifestPath, 'utf-8');
+      const manifest = JSON.parse(content) as { name?: unknown };
+      if (typeof manifest?.name === 'string' && manifest.name.trim().length > 0) {
+        return manifest.name;
+      }
+    } catch {
+      // Ignore errors and fall back to other strategies
+    }
+
+    return null;
   }
 
   /**

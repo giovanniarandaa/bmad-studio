@@ -215,7 +215,7 @@ describe('ProjectService', () => {
       await service.addProject(tempProjectDir);
 
       await expect(service.addProject(tempProjectDir)).rejects.toThrow(
-        'Project already exists'
+        'El proyecto ya existe'
       );
     });
 

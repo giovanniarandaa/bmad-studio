@@ -1,6 +1,8 @@
 import { useLocation } from 'react-router-dom';
-import { FolderOpen, FileText, Code, FileSearch, Settings, HelpCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FolderOpen, FileText, Code, FileSearch, Settings, HelpCircle, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
+import { ProjectList } from '../Projects';
+import { useProjectStore } from '../../stores/projectStore';
 import { ROUTES, SIDEBAR_WIDTH_EXPANDED, SIDEBAR_WIDTH_COLLAPSED } from '../../utils/constants';
 
 export interface SidebarProps {
@@ -10,6 +12,7 @@ export interface SidebarProps {
 
 export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
+  const { projects, projectPathsStatus, addProject, removeProject } = useProjectStore();
 
   const navItems = [
     { icon: <FolderOpen size={20} />, label: 'Projects', path: ROUTES.projects },
@@ -65,6 +68,76 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           </span>
         )}
       </div>
+
+      {/* Projects Section */}
+      {!collapsed && (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '12px',
+              paddingLeft: '4px',
+            }}
+          >
+            <span
+              style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                color: '#6B7280',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Proyectos
+            </span>
+            <button
+              onClick={() => addProject()}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: 'transparent',
+                color: '#10B981',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+              title="Agregar Proyecto"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
+
+          <div style={{ marginBottom: '16px', maxHeight: '200px', overflowY: 'auto' }}>
+            <ProjectList
+              projects={projects}
+              projectPathsStatus={projectPathsStatus}
+              onProjectRemove={removeProject}
+              onAddProject={() => addProject()}
+            />
+          </div>
+
+          {/* Divider */}
+          <div
+            style={{
+              height: '1px',
+              backgroundColor: '#E5E7EB',
+              marginBottom: '16px',
+            }}
+          />
+        </>
+      )}
 
       {/* Navigation Items */}
       <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
