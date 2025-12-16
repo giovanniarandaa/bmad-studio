@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Button } from '../Button';
 import './Modal.css';
 
 export interface ModalProps {
@@ -141,24 +142,20 @@ export const Modal: React.FC<ModalProps> = ({
         {(primaryAction || secondaryAction) && (
           <div className="modal__footer">
             {secondaryAction && (
-              <button
-                className="modal__button modal__button--secondary"
+              <Button
+                label={secondaryAction.label}
                 onClick={secondaryAction.onClick}
-                type="button"
-              >
-                {secondaryAction.label}
-              </button>
+                variant="secondary"
+                size="md"
+              />
             )}
             {primaryAction && (
-              <button
-                className={`modal__button modal__button--${
-                  primaryAction.variant || 'primary'
-                }`}
+              <Button
+                label={primaryAction.label}
                 onClick={primaryAction.onClick}
-                type="button"
-              >
-                {primaryAction.label}
-              </button>
+                variant={primaryAction.variant || 'primary'}
+                size="md"
+              />
             )}
           </div>
         )}

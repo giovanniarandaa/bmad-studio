@@ -1,0 +1,40 @@
+/**
+ * ThemeSwitcher Styles
+ */
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+}
+
+.theme-switcher__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.theme-switcher__button:hover {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.theme-switcher__button--active {
+  background-color: var(--color-primary-green);
+  color: var(--color-text-white);
+}
+
+.theme-switcher__button--active:hover {
+  background-color: var(--color-primary-green-hover);
+}

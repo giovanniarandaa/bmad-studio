@@ -10,11 +10,13 @@ import type { FC } from 'react';
 import { AppRoutes } from './routes/AppRoutes';
 import { useAppStore } from './stores/appStore';
 import { useProjectStore } from './stores/projectStore';
+import { useThemeStore } from './stores/themeStore';
 import './styles/theme.css';
 
 const App: FC = () => {
   const initializeFromLocalStorage = useAppStore((state) => state.initializeFromLocalStorage);
   const loadProjects = useProjectStore((state) => state.loadProjects);
+  const initTheme = useThemeStore((state) => state.initTheme);
 
   useEffect(() => {
     // Initialize store from localStorage on app start
@@ -22,7 +24,10 @@ const App: FC = () => {
 
     // Load projects from database on app start
     loadProjects();
-  }, [initializeFromLocalStorage, loadProjects]);
+
+    // Initialize theme on app start
+    initTheme();
+  }, [initializeFromLocalStorage, loadProjects, initTheme]);
 
   return <AppRoutes />;
 };

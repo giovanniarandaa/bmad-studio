@@ -31,22 +31,24 @@ export class ProjectIpcHandler {
     ipcMain.handle('project:add', this.handleAddProject.bind(this));
     ipcMain.handle('project:list', this.handleListProjects.bind(this));
     ipcMain.handle('project:remove', this.handleRemoveProject.bind(this));
+    ipcMain.handle('project:updateName', this.handleUpdateName.bind(this));
     ipcMain.handle('project:validatePaths', this.handleValidatePaths.bind(this));
   }
 
   /**
    * Handler for project:add channel
-   * Adds a new project to BMAD Studio with automatic name detection
+   * Adds a new project to BMAD Studio
+   * Uses folder name by default, or custom name if provided
    */
   private async handleAddProject(
     event: IpcMainInvokeEvent,
-    payload: { path: string }
+    payload: { path: string; name?: string }
   ): Promise<
     | { success: true; project: Project }
     | { success: false; error: string }
   > {
     try {
-      const project = await this.projectService.addProject(payload.path);
+      const project = await this.projectService.addProject(payload.path, payload.name);
       return { success: true, project };
     } catch (error: any) {
       return {
@@ -82,6 +84,28 @@ export class ProjectIpcHandler {
       return {
         success: false,
         error: error.message || 'Failed to remove project',
+      };
+    }
+  }
+
+  /**
+   * Handler for project:updateName channel
+   * Updates the name of an existing project
+   */
+  private async handleUpdateName(
+    event: IpcMainInvokeEvent,
+    payload: { id: number; name: string }
+  ): Promise<
+    | { success: true; project: Project }
+    | { success: false; error: string }
+  > {
+    try {
+      const project = this.projectService.updateProjectName(payload.id, payload.name);
+      return { success: true, project };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message || 'Failed to update project name',
       };
     }
   }

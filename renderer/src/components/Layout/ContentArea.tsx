@@ -7,7 +7,7 @@ export function ContentArea({ children }: ContentAreaProps) {
     <div
       className="flex-1 overflow-auto"
       style={{
-        backgroundColor: '#ECFDF5',
+        backgroundColor: 'var(--color-bg-primary)',
       }}
     >
       {children}

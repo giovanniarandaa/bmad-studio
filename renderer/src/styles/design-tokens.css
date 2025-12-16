@@ -29,6 +29,8 @@
 
   /* Semantic Colors */
   --color-error: #EF4444;
+  --color-danger: #DC2626;
+  --color-danger-bg: #FEE2E2;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-info: #3B82F6;

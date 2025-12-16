@@ -26,8 +26,8 @@ export function SidebarItem({ icon, label, path, isActive, isCollapsed }: Sideba
         borderRadius: '12px',
         border: 'none',
         cursor: 'pointer',
-        backgroundColor: isActive ? '#10B981' : 'transparent',
-        color: isActive ? '#FFFFFF' : '#6B7280',
+        backgroundColor: isActive ? 'var(--color-sidebar-active-bg)' : 'transparent',
+        color: isActive ? 'var(--color-primary-green)' : 'var(--color-text-secondary)',
         fontWeight: '500',
         fontSize: '14px',
         transition: 'all 0.2s ease',
@@ -36,7 +36,7 @@ export function SidebarItem({ icon, label, path, isActive, isCollapsed }: Sideba
       }}
       onMouseEnter={(e) => {
         if (!isActive) {
-          e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+          e.currentTarget.style.backgroundColor = 'var(--color-sidebar-hover)';
         }
       }}
       onMouseLeave={(e) => {

@@ -14,7 +14,7 @@
 }
 
 .project-list-item:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: var(--color-sidebar-hover);
 }
 
 .project-list-item.path-not-found {
@@ -30,7 +30,7 @@
 }
 
 .project-icon {
-  color: #6B7280;
+  color: var(--color-text-secondary);
   flex-shrink: 0;
 }
 
@@ -44,7 +44,15 @@
 .project-name {
   font-size: 14px;
   font-weight: 500;
-  color: #1F2937;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-path {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -65,7 +73,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  color: #6B7280;
+  color: var(--color-text-secondary);
   transition: all 0.2s ease;
   opacity: 0;
   pointer-events: none;
@@ -78,8 +86,8 @@
 }
 
 .delete-button--visible:hover {
-  background-color: #FEE2E2;
-  color: #DC2626;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
 }
 
 .delete-button--visible:active {

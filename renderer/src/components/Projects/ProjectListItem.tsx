@@ -47,6 +47,7 @@ export function ProjectListItem({ project, onRemove, pathExists }: ProjectListIt
           {getProjectIcon()}
           <div className="project-details">
             <span className="project-name">{project.name}</span>
+            <span className="project-path">{project.path}</span>
             {!pathExists && (
               <span className="path-not-found-badge">Ruta no encontrada</span>
             )}
@@ -78,7 +79,7 @@ export function ProjectListItem({ project, onRemove, pathExists }: ProjectListIt
         }}
       >
         <p>¿Eliminar <strong>{project.name}</strong> de BMAD Studio?</p>
-        <p style={{ color: '#6B7280', marginTop: '8px', fontSize: '14px' }}>
+        <p style={{ color: 'var(--color-text-secondary)', marginTop: '8px', fontSize: '14px' }}>
           Los archivos NO se eliminarán del sistema
         </p>
       </Modal>

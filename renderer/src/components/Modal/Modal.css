@@ -11,7 +11,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,8 +31,8 @@
 
 /* Content */
 .modal__content {
-  background-color: var(--color-bg-white);
-  border-radius: var(--radius-md);
+  background-color: var(--color-modal-bg);
+  border-radius: var(--radius-base);
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
@@ -98,7 +98,7 @@
 }
 
 .modal__close:hover {
-  background-color: var(--color-bg-gray-secondary);
+  background-color: var(--color-modal-close-hover);
   color: var(--color-text-primary);
 }
 
@@ -160,7 +160,7 @@
 }
 
 .modal__button--danger:hover {
-  background-color: #DC2626;
+  background-color: var(--color-danger-hover);
   box-shadow: var(--shadow-hover);
 }
 

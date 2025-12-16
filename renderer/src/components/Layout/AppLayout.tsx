@@ -57,7 +57,7 @@ export function AppLayout() {
 
   // Desktop/Tablet view - Show Sidebar
   return (
-    <div className="h-screen flex" style={{ backgroundColor: '#ECFDF5' }}>
+    <div className="h-screen flex" style={{ backgroundColor: 'var(--color-bg-primary)' }}>
       <Sidebar collapsed={sidebarCollapsed} onToggleCollapse={toggleSidebar} />
       <ContentArea>
         <Outlet />

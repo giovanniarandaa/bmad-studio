@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { FolderOpen, FileText, Code, FileSearch, Settings, HelpCircle, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { ProjectList } from '../Projects';
+import { ThemeSwitcher } from '../ThemeSwitcher';
 import { useProjectStore } from '../../stores/projectStore';
 import { ROUTES, SIDEBAR_WIDTH_EXPANDED, SIDEBAR_WIDTH_COLLAPSED } from '../../utils/constants';
 
@@ -15,24 +16,24 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const { projects, projectPathsStatus, addProject, removeProject } = useProjectStore();
 
   const navItems = [
-    { icon: <FolderOpen size={20} />, label: 'Projects', path: ROUTES.projects },
+    { icon: <FolderOpen size={20} />, label: 'Proyectos', path: ROUTES.projects },
     { icon: <FileText size={20} />, label: 'Features', path: ROUTES.features },
     { icon: <Code size={20} />, label: 'BMAD', path: ROUTES.bmad },
     { icon: <FileSearch size={20} />, label: 'Reviews', path: ROUTES.reviews },
-    { icon: <Settings size={20} />, label: 'Settings', path: ROUTES.settings },
-    { icon: <HelpCircle size={20} />, label: 'Help', path: ROUTES.help },
+    { icon: <Settings size={20} />, label: 'Configuración', path: ROUTES.settings },
+    { icon: <HelpCircle size={20} />, label: 'Ayuda', path: ROUTES.help },
   ];
 
   return (
     <div
       style={{
         width: collapsed ? `${SIDEBAR_WIDTH_COLLAPSED}px` : `${SIDEBAR_WIDTH_EXPANDED}px`,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--color-sidebar-bg)',
         borderRadius: '24px',
         padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        boxShadow: 'var(--shadow-md)',
         transition: 'all 0.2s ease',
         margin: '16px 0 16px 16px',
         height: 'calc(100vh - 32px)',
@@ -52,7 +53,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           style={{
             width: '40px',
             height: '40px',
-            backgroundColor: '#10B981',
+            backgroundColor: 'var(--color-primary-green)',
             borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
@@ -63,7 +64,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           ⚡
         </div>
         {!collapsed && (
-          <span style={{ fontWeight: '600', fontSize: '18px', color: '#1F2937' }}>
+          <span style={{ fontWeight: '600', fontSize: '18px', color: 'var(--color-text-primary)' }}>
             BMAD Studio
           </span>
         )}
@@ -85,7 +86,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
               style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                color: '#6B7280',
+                color: 'var(--color-text-secondary)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
               }}
@@ -104,11 +105,11 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
                 border: 'none',
                 cursor: 'pointer',
                 backgroundColor: 'transparent',
-                color: '#10B981',
+                color: 'var(--color-primary-green)',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+                e.currentTarget.style.backgroundColor = 'var(--color-primary-green-light)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';
@@ -132,7 +133,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           <div
             style={{
               height: '1px',
-              backgroundColor: '#E5E7EB',
+              backgroundColor: 'var(--color-border-light)',
               marginBottom: '16px',
             }}
           />
@@ -153,8 +154,10 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         ))}
       </nav>
 
-      {/* Bottom Section - Toggle */}
+      {/* Bottom Section - Theme Switcher & Toggle */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto' }}>
+        {!collapsed && <ThemeSwitcher />}
+
         <button
           onClick={onToggleCollapse}
           style={{
@@ -167,26 +170,26 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
             border: 'none',
             cursor: 'pointer',
             backgroundColor: 'transparent',
-            color: '#6B7280',
+            color: 'var(--color-text-secondary)',
             fontWeight: '500',
             fontSize: '14px',
             transition: 'all 0.2s ease',
             width: '100%',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+            e.currentTarget.style.backgroundColor = 'var(--color-primary-green-light)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'transparent';
           }}
-          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={collapsed ? 'Expandir sidebar' : 'Colapsar sidebar'}
         >
           {collapsed ? (
             <ChevronRight size={24} />
           ) : (
             <>
               <ChevronLeft size={20} />
-              Collapse
+              Colapsar
             </>
           )}
         </button>

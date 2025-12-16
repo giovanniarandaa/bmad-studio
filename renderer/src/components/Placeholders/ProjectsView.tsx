@@ -3,10 +3,10 @@ export function ProjectsView() {
     <div style={{ padding: '24px' }}>
       <div
         style={{
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-bg-secondary)',
           borderRadius: '20px',
           padding: '32px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          boxShadow: 'var(--shadow-md)',
         }}
       >
         <h1
@@ -14,19 +14,19 @@ export function ProjectsView() {
             fontSize: '28px',
             fontWeight: '700',
             marginBottom: '12px',
-            color: '#1F2937',
+            color: 'var(--color-text-primary)',
           }}
         >
           Projects
         </h1>
-        <p style={{ color: '#6B7280', fontSize: '16px', lineHeight: '1.6' }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: '16px', lineHeight: '1.6' }}>
           Manage your BMAD projects here.
         </p>
         <p
           style={{
             marginTop: '16px',
             fontSize: '14px',
-            color: '#9CA3AF',
+            color: 'var(--color-text-tertiary)',
             fontStyle: 'italic',
           }}
         >

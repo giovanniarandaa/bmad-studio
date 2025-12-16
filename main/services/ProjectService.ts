@@ -12,7 +12,7 @@ import type { Project } from '../../shared/types/database';
 import { ProjectRepository } from '../repositories/ProjectRepository';
 import { FileSystemService } from './FileSystemService';
 import { FileNotFoundError, PermissionDeniedError } from '../errors/FileSystemErrors';
-import { ProjectAlreadyExistsError } from '../errors/ProjectErrors';
+import { ProjectAlreadyExistsError, ProjectNotFoundError } from '../errors/ProjectErrors';
 
 export type ProjectType = 'node' | 'php' | 'fullstack' | 'generic';
 
@@ -27,20 +27,21 @@ export class ProjectService {
 
   /**
    * Add a new project to BMAD Studio
-   * Detects project name and type automatically
+   * Uses folder name by default, or custom name if provided
    *
    * @param projectPath Absolute path to project folder
+   * @param customName Optional custom name for the project (defaults to folder name)
    * @returns Created project
    * @throws FileNotFoundError if path doesn't exist
    * @throws PermissionDeniedError if path is not accessible
    * @throws ProjectAlreadyExistsError if path is already in database
    */
-  async addProject(projectPath: string): Promise<Project> {
+  async addProject(projectPath: string, customName?: string): Promise<Project> {
     // Validate path
     await this.validateProjectPath(projectPath);
 
-    // Detect project metadata
-    const name = await this.detectProjectName(projectPath);
+    // Use custom name if provided, otherwise use folder name
+    const name = customName || path.basename(projectPath);
     const type = await this.detectProjectType(projectPath);
 
     // Create project in database
@@ -71,6 +72,31 @@ export class ProjectService {
    */
   removeProject(id: number): void {
     this.projectRepository.delete(id);
+  }
+
+  /**
+   * Update project name
+   *
+   * @param id Project ID
+   * @param newName New name for the project
+   * @returns Updated project
+   * @throws ProjectNotFoundError if project doesn't exist
+   */
+  updateProjectName(id: number, newName: string): Project {
+    const project = this.projectRepository.findById(id);
+    if (!project) {
+      throw new ProjectNotFoundError(id);
+    }
+
+    this.projectRepository.update(id, { name: newName });
+
+    // Return updated project
+    const updated = this.projectRepository.findById(id);
+    if (!updated) {
+      throw new ProjectNotFoundError(id);
+    }
+
+    return updated;
   }
 
   /**

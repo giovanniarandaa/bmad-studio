@@ -41,13 +41,15 @@
 
 /* Secondary Variant */
 .button--secondary {
-  background-color: var(--color-text-primary);
-  color: var(--color-text-white);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-light);
+  box-shadow: none;
 }
 
 .button--secondary:hover:not(.button--disabled) {
-  background-color: #111827;
-  box-shadow: var(--shadow-hover);
+  background-color: var(--color-bg-tertiary);
+  box-shadow: var(--shadow-sm);
   transform: translateY(-1px);
 }
 
@@ -69,7 +71,24 @@
 }
 
 .button--ghost:active:not(.button--disabled) {
-  background-color: rgba(0, 213, 99, 0.15);
+  background-color: var(--color-primary-green-light);
+}
+
+/* Danger Variant */
+.button--danger {
+  background-color: var(--color-danger);
+  color: var(--color-text-white);
+}
+
+.button--danger:hover:not(.button--disabled) {
+  background-color: var(--color-danger-hover);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+  transform: translateY(-2px);
+}
+
+.button--danger:active:not(.button--disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Size Variants */

@@ -4,7 +4,7 @@ import './Button.css';
 export interface ButtonProps {
   label: string;
   onClick: () => void;
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   icon?: React.ReactNode;
