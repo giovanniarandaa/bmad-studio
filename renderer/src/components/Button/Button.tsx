@@ -5,6 +5,7 @@ export interface ButtonProps {
   label: string;
   onClick: () => void;
   variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   icon?: React.ReactNode;
   className?: string;
@@ -14,6 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
   variant = 'primary',
+  size = 'md',
   disabled = false,
   icon,
   className = '',
@@ -25,11 +27,12 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variantClass = `button--${variant}`;
+  const sizeClass = `button--${size}`;
   const disabledClass = disabled ? 'button--disabled' : '';
 
   return (
     <button
-      className={`button ${variantClass} ${disabledClass} ${className}`.trim()}
+      className={`button ${variantClass} ${sizeClass} ${disabledClass} ${className}`.trim()}
       onClick={handleClick}
       disabled={disabled}
       type="button"

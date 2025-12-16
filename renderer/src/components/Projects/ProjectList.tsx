@@ -9,6 +9,7 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import type { Project } from '../../../../shared/types/database';
 import { ProjectListItem } from './ProjectListItem';
+import { Button } from '../Button';
 import './ProjectList.css';
 
 interface ProjectListProps {
@@ -31,10 +32,13 @@ export function ProjectList({
     return (
       <div className="project-list-empty">
         <p className="empty-message">No hay proyectos aún</p>
-        <button className="add-project-cta" onClick={onAddProject}>
-          <Plus size={16} />
-          <span>Agregar Proyecto</span>
-        </button>
+        <Button
+          label="Agregar Proyecto"
+          onClick={onAddProject}
+          variant="primary"
+          size="sm"
+          icon={<Plus size={14} />}
+        />
       </div>
     );
   }

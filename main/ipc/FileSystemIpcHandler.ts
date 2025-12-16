@@ -108,10 +108,11 @@ export class FileSystemIpcHandler {
    */
   private async handleSelectFolder(
     event: IpcMainInvokeEvent,
-    payload: { defaultPath?: string }
+    payload?: { defaultPath?: string }
   ): Promise<{ success: true; path: string | null } | { success: false; error: any }> {
     try {
-      const selectedPath = await this.fileSystemService.selectFolder(payload.defaultPath);
+      const defaultPath = payload?.defaultPath;
+      const selectedPath = await this.fileSystemService.selectFolder(defaultPath);
       return { success: true, path: selectedPath };
     } catch (error: any) {
       return {

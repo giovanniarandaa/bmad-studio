@@ -68,17 +68,30 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
     }
   },
 
-  addProject: async (path?: string) => {
+  addProject: async (path?: string, name?: string) => {
     try {
+      console.log('🔵 [projectStore] addProject called with path:', path, 'name:', name);
+
       // If no path provided, open folder selector
       let projectPath = path;
       if (!projectPath) {
+        console.log('🔵 [projectStore] No path provided, opening folder selector...');
         const result = await window.electronAPI.invoke<{
           success: boolean;
           path?: string | null;
-        }>('fs:selectFolder');
+          error?: any;
+        }>('fs:selectFolder', {});
+
+        console.log('🔵 [projectStore] Folder selector result:', result);
+
+        if (!result.success && result.error) {
+          console.error('🔴 [projectStore] Error opening folder selector:', result.error);
+          alert(`Error al abrir selector de carpetas: ${result.error.message}`);
+          return;
+        }
 
         if (!result.success || !result.path) {
+          console.log('🔵 [projectStore] User cancelled or no path selected');
           return; // User cancelled
         }
 
@@ -90,7 +103,7 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
         success: boolean;
         project?: Project;
         error?: string;
-      }>('project:add', { path: projectPath });
+      }>('project:add', { path: projectPath, name });
 
       if (result.success && result.project) {
         // Add to projects list

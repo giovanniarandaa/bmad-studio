@@ -8,6 +8,7 @@
 import React, { useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { ProjectList } from './ProjectList';
+import { Button } from '../Button';
 import { useProjectStore } from '../../stores/projectStore';
 
 export function ProjectsView() {
@@ -53,37 +54,13 @@ export function ProjectsView() {
             </p>
           </div>
 
-          <button
+          <Button
+            label="Agregar Proyecto"
             onClick={() => addProject()}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '12px 20px',
-              borderRadius: '12px',
-              border: 'none',
-              cursor: 'pointer',
-              backgroundColor: '#10B981',
-              color: '#FFFFFF',
-              fontWeight: '600',
-              fontSize: '14px',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#059669';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#10B981';
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.3)';
-            }}
-          >
-            <Plus size={16} />
-            <span>Agregar Proyecto</span>
-          </button>
+            variant="primary"
+            size="md"
+            icon={<Plus size={16} />}
+          />
         </div>
 
         {/* Content */}

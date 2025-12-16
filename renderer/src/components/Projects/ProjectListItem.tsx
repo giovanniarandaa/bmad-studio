@@ -53,15 +53,13 @@ export function ProjectListItem({ project, onRemove, pathExists }: ProjectListIt
           </div>
         </div>
 
-        {isHovered && (
-          <button
-            className="delete-button"
-            onClick={() => setShowDeleteConfirm(true)}
-            aria-label={`Delete project ${project.name}`}
-          >
-            <Trash2 size={16} />
-          </button>
-        )}
+        <button
+          className={`delete-button ${isHovered ? 'delete-button--visible' : ''}`}
+          onClick={() => setShowDeleteConfirm(true)}
+          aria-label={`Delete project ${project.name}`}
+        >
+          <Trash2 size={16} />
+        </button>
       </div>
 
       <Modal
