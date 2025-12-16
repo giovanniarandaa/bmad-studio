@@ -103,26 +103,34 @@ describe('ProjectRepository', () => {
       expect(projects).toEqual([]);
     });
 
-    it('should return all projects ordered by last_opened_at', () => {
+    it('should return all projects ordered alphabetically by name (case-insensitive)', () => {
       repo.create({
-        name: 'Project A',
-        path: '/path/a',
+        name: 'zebra-project',
+        path: '/path/z',
         has_bmad: false,
-        last_opened_at: '2024-01-01T00:00:00Z',
+        last_opened_at: null,
       });
 
       repo.create({
-        name: 'Project B',
+        name: 'Alpha Project',
+        path: '/path/a',
+        has_bmad: false,
+        last_opened_at: null,
+      });
+
+      repo.create({
+        name: 'beta-project',
         path: '/path/b',
         has_bmad: false,
-        last_opened_at: '2024-01-02T00:00:00Z',
+        last_opened_at: null,
       });
 
       const projects = repo.findAll();
-      expect(projects.length).toBe(2);
-      // Most recently opened first
-      expect(projects[0].name).toBe('Project B');
-      expect(projects[1].name).toBe('Project A');
+      expect(projects.length).toBe(3);
+      // Ordered alphabetically case-insensitive: Alpha, beta, zebra
+      expect(projects[0].name).toBe('Alpha Project');
+      expect(projects[1].name).toBe('beta-project');
+      expect(projects[2].name).toBe('zebra-project');
     });
   });
 
@@ -217,6 +225,75 @@ describe('ProjectRepository', () => {
 
       const found = repo.findById(project.id);
       expect(found).toBeNull();
+    });
+  });
+
+  describe('validatePathExists', () => {
+    it('should return Map with validation results for all project IDs', async () => {
+      const project1 = repo.create({
+        name: 'Project 1',
+        path: '/existing/path',
+        has_bmad: false,
+        last_opened_at: null,
+      });
+
+      const project2 = repo.create({
+        name: 'Project 2',
+        path: '/non/existent/path',
+        has_bmad: false,
+        last_opened_at: null,
+      });
+
+      // Mock FileSystemService
+      const mockFileSystemService = {
+        exists: async (path: string) => {
+          // Simulate: /existing/path exists, others don't
+          return path === '/existing/path';
+        },
+      };
+
+      const validationMap = await repo.validatePathExists(
+        [project1.id, project2.id],
+        mockFileSystemService
+      );
+
+      expect(validationMap.size).toBe(2);
+      expect(validationMap.get(project1.id)).toBe(true);
+      expect(validationMap.get(project2.id)).toBe(false);
+    });
+
+    it('should handle empty project IDs array', async () => {
+      const mockFileSystemService = {
+        exists: async (_path: string) => true,
+      };
+
+      const validationMap = await repo.validatePathExists([], mockFileSystemService);
+
+      expect(validationMap.size).toBe(0);
+    });
+
+    it('should skip non-existent project IDs', async () => {
+      const project = repo.create({
+        name: 'Project',
+        path: '/path',
+        has_bmad: false,
+        last_opened_at: null,
+      });
+
+      const mockFileSystemService = {
+        exists: async (_path: string) => true,
+      };
+
+      // Include valid ID and invalid ID
+      const validationMap = await repo.validatePathExists(
+        [project.id, 999],
+        mockFileSystemService
+      );
+
+      // Should only validate the existing project
+      expect(validationMap.size).toBe(1);
+      expect(validationMap.has(project.id)).toBe(true);
+      expect(validationMap.has(999)).toBe(false);
     });
   });
 });

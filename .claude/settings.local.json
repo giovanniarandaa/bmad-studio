@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm run build:main:*)",
       "Bash(npx tsc:*)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run typecheck:*)"
     ]
   }
 }

@@ -20,7 +20,10 @@ import {
   DEFAULT_WINDOW_HEIGHT,
   VITE_DEV_SERVER_URL,
 } from '../shared/constants/app';
-import { initializeDatabase, closeDatabase } from './database/index';
+import { initializeDatabase, closeDatabase, getDatabaseManager } from './database/index';
+import { ProjectIpcHandler } from './ipc/ProjectIpcHandler';
+import { FileSystemIpcHandler } from './ipc/FileSystemIpcHandler';
+import { FileSystemService } from './services/FileSystemService';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -69,6 +72,20 @@ app.whenReady().then(async () => {
     await initializeDatabase();
     console.log('✅ Database initialized successfully');
 
+    // Get database connection
+    const dbManager = getDatabaseManager();
+    const db = dbManager.getConnection();
+
+    // Initialize IPC handlers
+    const projectIpcHandler = new ProjectIpcHandler(db);
+    projectIpcHandler.registerHandlers();
+    console.log('✅ Project IPC handlers registered');
+
+    const fileSystemService = new FileSystemService(db);
+    const fileSystemIpcHandler = new FileSystemIpcHandler(fileSystemService);
+    fileSystemIpcHandler.registerHandlers();
+    console.log('✅ FileSystem IPC handlers registered');
+
     // Now create the window
     createWindow();
 
@@ -110,13 +127,3 @@ app.on('will-quit', () => {
   console.log('🔒 Closing database connection...');
   closeDatabase();
 });
-
-/**
- * Placeholder for future IPC handlers
- * Will be implemented in Phase 2+ modules
- *
- * Example:
- * ipcMain.handle('project:add', async (_event, projectPath: string) => {
- *   return projectService.addProject(projectPath);
- * });
- */

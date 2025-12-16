@@ -1,0 +1,212 @@
+/**
+ * Modal Component Styles
+ *
+ * Uses design tokens from design-tokens.css
+ */
+
+/* Overlay */
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: var(--spacing-base);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Content */
+.modal__content {
+  background-color: var(--color-bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Sizes */
+.modal__content--sm {
+  width: 100%;
+  max-width: 400px;
+}
+
+.modal__content--md {
+  width: 100%;
+  max-width: 500px;
+}
+
+.modal__content--lg {
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Header */
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.modal__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.modal__close:hover {
+  background-color: var(--color-bg-gray-secondary);
+  color: var(--color-text-primary);
+}
+
+.modal__close:focus {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 2px;
+}
+
+/* Body */
+.modal__body {
+  padding: var(--spacing-xl);
+  overflow-y: auto;
+  flex: 1;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+/* Footer */
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  border-top: 1px solid var(--color-border-light);
+}
+
+/* Buttons */
+.modal__button {
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  min-width: 80px;
+}
+
+.modal__button--primary {
+  background-color: var(--color-primary-green);
+  color: var(--color-text-white);
+}
+
+.modal__button--primary:hover {
+  background-color: var(--color-primary-green-hover);
+  box-shadow: var(--shadow-hover);
+}
+
+.modal__button--primary:focus {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 2px;
+}
+
+.modal__button--danger {
+  background-color: var(--color-error);
+  color: var(--color-text-white);
+}
+
+.modal__button--danger:hover {
+  background-color: #DC2626;
+  box-shadow: var(--shadow-hover);
+}
+
+.modal__button--danger:focus {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}
+
+.modal__button--secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-light);
+}
+
+.modal__button--secondary:hover {
+  background-color: var(--color-bg-gray-secondary);
+}
+
+.modal__button--secondary:focus {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modal__overlay {
+    padding: var(--spacing-sm);
+  }
+
+  .modal__content--sm,
+  .modal__content--md,
+  .modal__content--lg {
+    max-width: 100%;
+  }
+
+  .modal__header,
+  .modal__body,
+  .modal__footer {
+    padding: var(--spacing-lg);
+  }
+
+  .modal__footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal__button {
+    width: 100%;
+  }
+}

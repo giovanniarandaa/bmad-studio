@@ -25,10 +25,10 @@ export class ProjectRepository {
   }
 
   /**
-   * Find all projects
+   * Find all projects ordered alphabetically by name (case-insensitive)
    */
   findAll(): Project[] {
-    const stmt = this.db.prepare('SELECT * FROM projects ORDER BY last_opened_at DESC, created_at DESC');
+    const stmt = this.db.prepare('SELECT * FROM projects ORDER BY name COLLATE NOCASE');
     const rows = stmt.all() as any[];
     return rows.map(row => this.rowToProject(row));
   }
@@ -126,5 +126,30 @@ export class ProjectRepository {
   updateLastOpened(id: number): void {
     const stmt = this.db.prepare('UPDATE projects SET last_opened_at = CURRENT_TIMESTAMP WHERE id = ?');
     stmt.run(id);
+  }
+
+  /**
+   * Validate existence of project paths in filesystem
+   * Used to detect if project folders have been moved or deleted
+   *
+   * @param projectIds Array of project IDs to validate
+   * @param fileSystemService Instance of FileSystemService to check path existence
+   * @returns Map of project ID to boolean (true if path exists, false otherwise)
+   */
+  async validatePathExists(projectIds: number[], fileSystemService: { exists: (path: string) => Promise<boolean> }): Promise<Map<number, boolean>> {
+    const validationMap = new Map<number, boolean>();
+
+    // Batch fetch all projects by IDs
+    const projects = projectIds.map(id => this.findById(id)).filter(p => p !== null) as Project[];
+
+    // Check each path existence
+    await Promise.all(
+      projects.map(async (project) => {
+        const exists = await fileSystemService.exists(project.path);
+        validationMap.set(project.id, exists);
+      })
+    );
+
+    return validationMap;
   }
 }
