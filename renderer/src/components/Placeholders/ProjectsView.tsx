@@ -1,15 +1,38 @@
 export function ProjectsView() {
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-text-primary)' }}>
-        Projects
-      </h1>
-      <p style={{ color: 'var(--color-text-secondary)' }}>
-        Manage your BMAD projects here.
-      </p>
-      <p className="mt-4 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-        Coming soon...
-      </p>
+    <div style={{ padding: '24px' }}>
+      <div
+        style={{
+          backgroundColor: '#FFFFFF',
+          borderRadius: '20px',
+          padding: '32px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        }}
+      >
+        <h1
+          style={{
+            fontSize: '28px',
+            fontWeight: '700',
+            marginBottom: '12px',
+            color: '#1F2937',
+          }}
+        >
+          Projects
+        </h1>
+        <p style={{ color: '#6B7280', fontSize: '16px', lineHeight: '1.6' }}>
+          Manage your BMAD projects here.
+        </p>
+        <p
+          style={{
+            marginTop: '16px',
+            fontSize: '14px',
+            color: '#9CA3AF',
+            fontStyle: 'italic',
+          }}
+        >
+          Coming soon...
+        </p>
+      </div>
     </div>
   );
 }

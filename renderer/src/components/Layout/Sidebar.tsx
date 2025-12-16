@@ -22,24 +22,52 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
 
   return (
     <div
-      className="h-screen flex flex-col transition-all duration-200"
       style={{
         width: collapsed ? `${SIDEBAR_WIDTH_COLLAPSED}px` : `${SIDEBAR_WIDTH_EXPANDED}px`,
-        backgroundColor: 'var(--color-sidebar-bg)',
-        borderRight: '1px solid var(--color-border)',
+        backgroundColor: '#FFFFFF',
+        borderRadius: '24px',
+        padding: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        transition: 'all 0.2s ease',
+        margin: '16px 0 16px 16px',
+        height: 'calc(100vh - 32px)',
       }}
     >
       {/* Logo/Título */}
-      {!collapsed && (
-        <div className="p-4 border-b" style={{ borderColor: 'var(--color-border)' }}>
-          <h2 className="text-lg font-bold" style={{ color: 'var(--color-text-primary)' }}>
-            BMAD Studio
-          </h2>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          marginBottom: '24px',
+          justifyContent: collapsed ? 'center' : 'flex-start',
+        }}
+      >
+        <div
+          style={{
+            width: '40px',
+            height: '40px',
+            backgroundColor: '#10B981',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '20px',
+          }}
+        >
+          ⚡
         </div>
-      )}
+        {!collapsed && (
+          <span style={{ fontWeight: '600', fontSize: '18px', color: '#1F2937' }}>
+            BMAD Studio
+          </span>
+        )}
+      </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 py-4">
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
         {navItems.map((item) => (
           <SidebarItem
             key={item.path}
@@ -52,14 +80,42 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         ))}
       </nav>
 
-      {/* Toggle Button */}
-      <div className="p-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
+      {/* Bottom Section - Toggle */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto' }}>
         <button
           onClick={onToggleCollapse}
-          className="w-full flex items-center justify-center p-2 rounded hover:bg-[var(--color-sidebar-hover)] transition-colors"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: collapsed ? '0' : '12px',
+            padding: collapsed ? '12px' : '12px 16px',
+            borderRadius: '12px',
+            border: 'none',
+            cursor: 'pointer',
+            backgroundColor: 'transparent',
+            color: '#6B7280',
+            fontWeight: '500',
+            fontSize: '14px',
+            transition: 'all 0.2s ease',
+            width: '100%',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+          }}
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          {collapsed ? (
+            <ChevronRight size={24} />
+          ) : (
+            <>
+              <ChevronLeft size={20} />
+              Collapse
+            </>
+          )}
         </button>
       </div>
     </div>

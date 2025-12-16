@@ -18,26 +18,36 @@ export function SidebarItem({ icon, label, path, isActive, isCollapsed }: Sideba
   return (
     <button
       onClick={handleClick}
-      className={`
-        w-full flex items-center gap-3 px-4 py-3
-        transition-all duration-200
-        hover:bg-[var(--color-sidebar-hover)]
-        ${isActive ? 'bg-[var(--color-sidebar-active-bg)] border-l-4 border-[var(--color-sidebar-active-border)]' : 'border-l-4 border-transparent'}
-        ${isCollapsed ? 'justify-center' : ''}
-      `}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '12px 16px',
+        borderRadius: '12px',
+        border: 'none',
+        cursor: 'pointer',
+        backgroundColor: isActive ? '#10B981' : 'transparent',
+        color: isActive ? '#FFFFFF' : '#6B7280',
+        fontWeight: '500',
+        fontSize: '14px',
+        transition: 'all 0.2s ease',
+        justifyContent: isCollapsed ? 'center' : 'flex-start',
+        width: '100%',
+      }}
+      onMouseEnter={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.backgroundColor = 'transparent';
+        }
+      }}
       title={isCollapsed ? label : undefined}
     >
-      <span className="flex-shrink-0" style={{ color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)' }}>
-        {icon}
-      </span>
-      {!isCollapsed && (
-        <span
-          className="font-medium text-sm"
-          style={{ color: isActive ? 'var(--color-primary)' : 'var(--color-text-primary)' }}
-        >
-          {label}
-        </span>
-      )}
+      <span style={{ fontSize: '16px' }}>{icon}</span>
+      {!isCollapsed && label}
     </button>
   );
 }

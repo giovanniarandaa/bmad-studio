@@ -9,8 +9,8 @@ export const ROUTES = {
 } as const;
 
 // Sidebar dimensions
-export const SIDEBAR_WIDTH_EXPANDED = 240;
-export const SIDEBAR_WIDTH_COLLAPSED = 60;
+export const SIDEBAR_WIDTH_EXPANDED = 260;
+export const SIDEBAR_WIDTH_COLLAPSED = 80;
 
 // Breakpoints
 export const BREAKPOINT_MOBILE = 240;
