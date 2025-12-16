@@ -1,0 +1,87 @@
+/* AppLayout Component Styles */
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--spacing-2xl);
+  height: 100vh;
+  width: 100%;
+  padding: var(--spacing-2xl);
+  overflow: hidden;
+}
+
+.app-layout--vibrant-green {
+  background-color: var(--color-bg-vibrant-green);
+}
+
+.app-layout--light-gray {
+  background-color: var(--color-bg-gray);
+}
+
+/* Layout with right panel */
+.app-layout:has(.app-layout__right-panel) {
+  grid-template-columns: 280px 1fr 280px;
+}
+
+/* Sidebar */
+.app-layout__sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-md);
+  overflow-y: auto;
+}
+
+/* Main Content Area */
+.app-layout__content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.app-layout__content-card {
+  background-color: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-md);
+  min-height: 100%;
+}
+
+/* Right Panel */
+.app-layout__right-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-md);
+  overflow-y: auto;
+}
+
+/* Scrollbar Styling (macOS-like) */
+.app-layout__sidebar::-webkit-scrollbar,
+.app-layout__content::-webkit-scrollbar,
+.app-layout__right-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.app-layout__sidebar::-webkit-scrollbar-track,
+.app-layout__content::-webkit-scrollbar-track,
+.app-layout__right-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-layout__sidebar::-webkit-scrollbar-thumb,
+.app-layout__content::-webkit-scrollbar-thumb,
+.app-layout__right-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.app-layout__sidebar::-webkit-scrollbar-thumb:hover,
+.app-layout__content::-webkit-scrollbar-thumb:hover,
+.app-layout__right-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}

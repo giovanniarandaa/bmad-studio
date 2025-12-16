@@ -1,0 +1,92 @@
+/* Button Component Styles - Modern, soft, friendly */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 2px;
+}
+
+/* Primary Variant */
+.button--primary {
+  background-color: var(--color-primary-green);
+  color: var(--color-text-white);
+}
+
+.button--primary:hover:not(.button--disabled) {
+  background-color: var(--color-primary-green-hover);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  transform: translateY(-2px);
+}
+
+.button--primary:active:not(.button--disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Secondary Variant */
+.button--secondary {
+  background-color: var(--color-text-primary);
+  color: var(--color-text-white);
+}
+
+.button--secondary:hover:not(.button--disabled) {
+  background-color: #111827;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.button--secondary:active:not(.button--disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Ghost Variant */
+.button--ghost {
+  background-color: transparent;
+  color: var(--color-text-green);
+  box-shadow: none;
+}
+
+.button--ghost:hover:not(.button--disabled) {
+  background-color: var(--color-primary-green-light);
+  box-shadow: none;
+}
+
+.button--ghost:active:not(.button--disabled) {
+  background-color: rgba(0, 213, 99, 0.15);
+}
+
+/* Disabled State */
+.button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Icon */
+.button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+}
+
+.button__label {
+  display: inline-block;
+}
